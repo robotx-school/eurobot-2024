@@ -14,6 +14,7 @@ def gen_frames():
             break
         else:
             ret, buffer = cv2.imencode('.jpg', frame)
+            buffer = cv2.cvtColor(buffer,cv2.COLOR_BGR2GRAY)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
