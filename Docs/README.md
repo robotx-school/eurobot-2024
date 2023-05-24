@@ -1,5 +1,5 @@
 # Documentation Area
-This directory contains the documentation files for the project in md format.
+This directory contains all of the documentation files for the project in md format.
 
 ## Table of contents
 * [Code Style](STYLE.md)
