@@ -1,8 +1,9 @@
-import { BellOutlined, CodeOutlined, ControlOutlined, FundOutlined } from '@ant-design/icons';
+import { BellOutlined, CodeOutlined, ControlOutlined, FundOutlined, SettingOutlined } from '@ant-design/icons';
 import { Liquid, Bullet } from '@ant-design/plots';
 import { Layout, Menu, Space, theme, Typography, Table, ConfigProvider } from 'antd';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
+import axios from 'axios';
 
 const { Content, Sider } = Layout;
 const { Text, Title } = Typography;
@@ -33,6 +34,7 @@ const UsageLiquid = ({ percent, title, color, theme }) => (
   </Space>
 );
 const TemperatureBullet = ({ current }) => {
+  
   const data = [
     {
       title: '',
@@ -67,9 +69,25 @@ const TemperatureBullet = ({ current }) => {
 
 const App = () => {
   let color_theme = "light";
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const [cpuUsage, SetCpuUsage] = useState(0);
+  const [ramUsage, SetRamUsage] = useState(0);
+  const [sdUsage, SetSdUsage] = useState(0);
+  const [cpuTemperature, SetCpuTemperature] = useState(0);
+  const API_URL = "http://localhost:8000"; // FIXIT
+
+  const setStats = () => {
+    axios({method: "GET", url: `${API_URL}/stats`}).then((response) => {
+      SetCpuUsage(response.data.cpu_usage);
+      SetRamUsage(response.data.ram_usage);
+      SetSdUsage(response.data.sd_usage);
+      SetCpuTemperature(response.data.cpu_temperature);
+    }).catch((response) => {
+      console.error("Can't get data");
+    });
+  }
+
+  useEffect(() => { setStats() }, [])
+
   const menu = [
     {
       key: '0',
@@ -106,6 +124,11 @@ const App = () => {
       key: '6',
       icon: <CodeOutlined />,
       label: "Serial Terminal"
+    },
+    {
+      key: '8',
+      icon: <SettingOutlined />,
+      label: "Settings"
     }
   ];
   const RpiTableData = [
@@ -160,13 +183,22 @@ const App = () => {
         algorithm: theme.darkAlgorithm ? color_theme === "dark" : color_theme.defaultSelectedKeys
       }}
     >
-      <Layout>
+      <Layout style={{
+          marginLeft: 200,
+        }}
+>
         <Sider
           className="main-slider"
           breakpoint="lg"
-          collapsedWidth="0"
+          
           style={{
+            overflow: 'auto',
             height: '100vh',
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            bottom: 0,
+
           }}
 
         >
@@ -183,6 +215,7 @@ const App = () => {
           <Content
             style={{
               margin: '24px 16px 0',
+              overflow: 'initial',
             }}
           >
             <div
@@ -194,12 +227,12 @@ const App = () => {
             >
               <Title level={3}>RPi Statistic</Title>
               <Space direction='horizontal' size='large' style={{ width: '100%', justifyContent: 'center', marginBottom: 40 }}>
-                <UsageLiquid percent={0.9} color={"#8BC34A"} title={"CPU"} theme={color_theme} />
-                <UsageLiquid percent={0.6} color={"#4ac387"} title={"RAM"} theme={color_theme} />
-                <UsageLiquid percent={0.3} color={"#c34a4a"} title={"SD"} theme={color_theme} />
+                <UsageLiquid percent={cpuUsage} color={"#8BC34A"} title={"CPU"} theme={color_theme} />
+                <UsageLiquid percent={ramUsage} color={"#4ac387"} title={"RAM"} theme={color_theme} />
+                <UsageLiquid percent={sdUsage} color={"#c34a4a"} title={"SD"} theme={color_theme} />
               </Space>
               <Text strong>CPU temperature</Text>
-              <TemperatureBullet current={40} />
+              <TemperatureBullet current={cpuTemperature} />
               <Table dataSource={RpiTableData} columns={RpiTableColumns} />
             </div>
 
