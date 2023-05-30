@@ -30,13 +30,10 @@ class Net(nn.Module):
         return x
 
 net = torch.load('model.t')
-img = cv2.imread('x11.5_y811.5.png')
+img = cv2.imread('test.png')
 with open('cords.txt','w') as f:
     final_str = ""
-    
-        
-
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtcolor(img, cv2.color_bgr2gray)
     res = cv2.aruco.detectMarkers(gray,dictionary)
     
     if res is not None:

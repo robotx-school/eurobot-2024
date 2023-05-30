@@ -29,13 +29,13 @@ class Net(nn.Module):
 
 net = torch.load("model.t")
 net = net.to(torch.device("cuda"))
-img = cv2.imread('photo_2023-05-30_16-52-19.jpg')
+img = cv2.imread('test.png')
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 res = cv2.aruco.detectMarkers(gray,dictionary)
 if res is not None:
-    if 135 in res[1]:
-        index = np.where(res[1] == 135)[0][0]
+    if 83 in res[1]:
+        index = np.where(res[1] == 83)[0][0]
         x1 = (res[0][index][0][0][0] + res[0][index][0][2][0])//2
         y1 = (res[0][index][0][0][1] + res[0][index][0][2][1])//2
         cv2.circle(img, (int(x1), int(y1)), 10, (0, 0, 255), -1)
