@@ -7,7 +7,7 @@ export const routes = [
   {
     index: true,
     path: '',
-    element: <Stats/>,
+    element: <Stats />,
     icon: <FundOutlined />,
     label: 'Stats',
   },
@@ -22,7 +22,7 @@ export const routes = [
     element: <>Servos Page placeholder</>,
     icon: <BellOutlined />,
     label: 'Servos'
-  }, 
+  },
   {
     path: 'joystick',
     element: <>Joystick Page placeholder</>,
@@ -47,51 +47,6 @@ export const routes = [
     icon: <SettingOutlined />,
     label: 'DBUI Settings'
   },
-  
+
 
 ];
-
-
-// const menu = [
-//   {
-//       key: '0',
-//       icon: <FundOutlined />,
-//       label: "Stats"
-//   },
-//   {
-//       key: '1',
-//       icon: <BellOutlined />,
-//       label: "Motors"
-
-//   },
-//   {
-//       key: '2',
-//       icon: <BellOutlined />,
-//       label: "Servos"
-//   },
-//   {
-//       key: '3',
-//       icon: <ControlOutlined />,
-//       label: "Joystick"
-//   },
-//   {
-//       key: '4',
-//       icon: <CodeOutlined />,
-//       label: "SPI Terminal"
-//   },
-//   {
-//       key: '5',
-//       icon: <CodeOutlined />,
-//       label: "CTD Terminal"
-//   },
-//   {
-//       key: '6',
-//       icon: <CodeOutlined />,
-//       label: "Serial Terminal"
-//   },
-//   {
-//       key: '8',
-//       icon: <SettingOutlined />,
-//       label: "Settings"
-//   }
-// ];

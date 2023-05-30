@@ -1,4 +1,5 @@
-import { Layout, Menu, theme, ConfigProvider } from 'antd';
+import { Layout, Menu, theme, ConfigProvider, notification } from 'antd';
+import { useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import '../App.css';
 import { routes } from './routes';
@@ -9,7 +10,22 @@ const { Content, Sider } = Layout;
 
 export const Root = () => {
   let color_theme = "light";
+  const [notificationApi, notificationContextHolder] = notification.useNotification();
+
   const location = useLocation();
+  useEffect(() => {
+    notificationApi["warning"]({
+      message: 'CPU Overload',
+      description:
+        'Robot\'s API reports high CPU load(>=95%)',
+    });
+    notificationApi["error"]({
+      message: 'CPU Overheat',
+      description:
+        'Robot\'s API reports high CPU temperature(>=70°C)',
+    });
+  }, []);
+
 
   return (
     <ConfigProvider
@@ -61,6 +77,7 @@ export const Root = () => {
                 backgroundColor: "#fff" ? color_theme === "dark" : "#000",
               }}
             >
+              {notificationContextHolder}
               <Outlet />
             </div>
           </Content>

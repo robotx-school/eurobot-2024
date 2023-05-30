@@ -1,12 +1,10 @@
-import { BellOutlined, CodeOutlined, ControlOutlined, FundOutlined, SettingOutlined } from '@ant-design/icons';
-import { Layout, Menu, Space, theme, Typography, Table, ConfigProvider } from 'antd';
+import { Space, Typography, Table } from 'antd';
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { UsageLiquid } from '../Components/UsageLiquid';
 import { TemperatureBullet } from '../Components/TemperatureBullet';
 
-const { Content, Sider } = Layout;
 const { Text, Title } = Typography;
 
 export const Stats = () => {
