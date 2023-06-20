@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/robotx-school/eurobot-2024/assets/55328925/cf0189a9-7b9f-4360-82ae-581df471cc9a" />
+  <img src="https://raw.githubusercontent.com/robotx-school/eurobot-2024/master/logo.png" width="50%"/>
 </p>
 
 # How To Write Docs
@@ -10,7 +10,7 @@ All docs stored in `/Docs/` directory. In `/Docs/README.md` you can find a table
 Every documentation starts with header(like header in this document). Markdown for header:
 ```
 <p align="center">
-  <img src="https://github.com/robotx-school/eurobot-2024/assets/55328925/cf0189a9-7b9f-4360-82ae-581df471cc9a" />
+  <img src="https://raw.githubusercontent.com/robotx-school/eurobot-2024/master/logo.png" width="50%"/>
 </p>
 
 # Title here
