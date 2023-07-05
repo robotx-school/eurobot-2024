@@ -3,6 +3,6 @@
 </p>
 
 # Eurobot 2024
-## Table of contents
-* [CentralTrackingDevice source code](/CentralTrackingDevice)
-* [Documentation](/Docs)
+You can find docs in `Wiki` section
+<!--* [CentralTrackingDevice source code](/CentralTrackingDevice)
+* [Documentation](/Docs)->>
