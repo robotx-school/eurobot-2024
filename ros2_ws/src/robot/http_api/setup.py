@@ -1,11 +1,12 @@
 from setuptools import setup
 
 package_name = 'http_api'
+core_modules = 'http_api/core'
 
 setup(
     name=package_name,
     version='0.0.0',
-    packages=[package_name],
+    packages=[package_name, core_modules],
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
@@ -20,6 +21,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'http_api = http_api.api:main'
         ],
     },
 )
