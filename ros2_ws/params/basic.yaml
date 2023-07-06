@@ -2,3 +2,4 @@
   ros__parameters:
     port: 8080
     host: "0.0.0.0"
+    ssh_auth_data: "pi:pi"

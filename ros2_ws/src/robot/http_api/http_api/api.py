@@ -13,6 +13,7 @@ class HttpApi(Node):
 
         self.declare_parameter('port', 8080)
         self.declare_parameter('host', "0.0.0.0")
+        self.declare_parameter('ssh_auth_data', "N/A")
 
         self.app = FastAPI(
             title="HTTP API for robot high-level",
@@ -42,7 +43,7 @@ class HttpApi(Node):
                 "sd_usage": memory(),
                 "cpu_temperature": temperture(),
                 "local_ip": "N/A",
-                "auth_data": "pi:pi",
+                "ssh_auth_data": self.get_parameter('ssh_auth_data').value,
                 "api_version": self.app.version,
                 "ros_report": f"Mock data: ROS2 Humble",
                 "spi_status": "Error"
@@ -54,7 +55,6 @@ class HttpApi(Node):
         old_new = uvicorn.Server.__new__
 
         def spoof_server(self, *_, **__):
-            '''Interfeer with __new__ to set server'''
             nonlocal server
             server = old_new(self)
             return server
