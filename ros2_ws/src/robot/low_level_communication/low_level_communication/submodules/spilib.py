@@ -62,13 +62,18 @@ Not supported functions:
 import spidev
 import time
 from typing import List, Tuple, Dict
+import logging
 
 class SpiInterface:
-    def __init__(self, recv_length: int) -> None:
+    def __init__(self, recv_length = 40) -> None:
         self.recv_length = recv_length
-        self.spi = spidev.SpiDev()
-        self.spi.open(0, 0)
-        self.spi.max_speed_hz = 1000000
+        try:
+            self.spi = spidev.SpiDev()
+            self.spi.open(0, 0)
+            self.spi.max_speed_hz = 1000000
+        except FileNotFoundError:
+            logging.error("Can't open spi interface; Check wiring")
+            
 
     def list_int_to_bytes(self, input_list: List[int]) -> List[int]:
         """
@@ -87,7 +92,7 @@ class SpiInterface:
         return output_list
 
 
-    def spi_send(self, txData: List[int] = []) -> Tuple[bool, List[int] | None]:
+    def spi_send(self, txData: List[int] = [], fake=True) -> Tuple[bool, List[int] | None]:
         """
         Send generated list by SPI
 
@@ -97,13 +102,14 @@ class SpiInterface:
         Returns:
             list: received data
         """
+        if fake: return (True, [1] * 10)
         try:
             txData = self.list_int_to_bytes(txData)
             txData = txData + [0] * (self.recv_length - len(txData))
             rxData = []
             _ = self.spi.xfer2([240])  # 240 - b11110000 - start byte
-            for i in range(40):
-                rxData.append(spi.xfer2([txData[i]])[0])
+            for i in range(self.recv_length):
+                rxData.append(self.spi.xfer2([txData[i]])[0])
             # self.spi.close()
             return (True, rxData)
         except FileNotFoundError: # If spi communication problems
@@ -116,11 +122,11 @@ class SpiInterface:
         pass
         
 
-class LlcProtocl:
+class LlcProtocol:
     def __init__(self, spi_interface: SpiInterface = None) -> None:
         self.spi = spi_interface # Manual defined spi interface class object
         if not self.spi:
-            self.spi = SpiInterface() # Auto interface creation
+            self.spi = SpiInterface(40) # Auto interface creation
 
     def motor_change_control_type(self):
         """

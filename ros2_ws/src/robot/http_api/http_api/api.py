@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 from .core.usage import cpu, ram, memory, temperture
 from .core.device_info import get_local_ip
+from .core.models import TmgrSignalModel
 from fastapi.middleware.cors import CORSMiddleware
 import rclpy
 from rclpy.node import Node
@@ -16,7 +17,7 @@ class HttpApi(Node):
         self.declare_parameter('ssh_auth_data', "N/A")
 
         self.app = FastAPI(
-            title="HTTP API for robot high-level",
+            title="HTTP API for robot High Level",
             version="0.0.1"
         )
 
@@ -36,7 +37,7 @@ class HttpApi(Node):
             }
 
         @self.app.get("/stats", tags=['status'])
-        async def hl_info():
+        async def hl_board_status():
             return {
                 "cpu_usage": cpu(),
                 "ram_usage": ram(),
@@ -48,6 +49,23 @@ class HttpApi(Node):
                 "ros_report": f"Mock data: ROS2 Humble",
                 "spi_status": "Error"
             }
+        
+        @self.app.get("/match/start", tags=["match"])
+        async def match_start():
+            pass
+        
+        @self.app.get("/match/stop", tags=["match"])
+        async def match_stop():
+            pass
+
+        @self.app.post("/tmgr/signal", tags=["tmgr"])
+        async def tmgr_send_signal(tmgr_signal_data: TmgrSignalModel):
+            pass
+
+        @self.app.post("/llc/raw", tags=["llc"])
+        async def send_buffer_to_llc():
+            pass
+
     
     def run_bg(self):
         server = None
